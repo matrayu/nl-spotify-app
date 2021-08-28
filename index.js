@@ -10,6 +10,11 @@ app.get('/', (req, res) => {
     res.send('Hello World HELLO')
 });
 
+app.get('/login', (req, res) => {
+    res.redirect(`http://accounts.spotify.com/authorize?
+    client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`)
+})
+
 app.listen(port, () => {
     console.log(`Express app listening at http://localhost:${port}`);
 });
