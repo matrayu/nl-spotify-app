@@ -1,9 +1,11 @@
-import { createGlobalStyle } from 'styled-components/macro';
-import fonts from './fonts';
-import variables from './variables';
+import { createGlobalStyle } from "styled-components/macro";
+//import fonts from './fonts';
+import variables from "./variables";
+
+//${fonts};
 
 const GlobalStyle = createGlobalStyle`
-  ${fonts};
+  
   ${variables};
 
   html {
