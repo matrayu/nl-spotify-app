@@ -7,9 +7,10 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = getCurrentUserProfile(); 
+            const { data } = await getCurrentUserProfile(); 
             setProfile(data);
         }
+
         catchErrors(fetchData())
     }, []);
 
