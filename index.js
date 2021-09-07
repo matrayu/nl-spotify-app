@@ -25,7 +25,7 @@ const stateKey = "spotify_auth_state";
 
 // app.METHOD(PATH, HANDLER)
 app.get("/", (req, res) => {
-  res.send("Hello World HELLO");
+  res.send("Hello World");
 });
 
 app.get("/login", (req, res) => {
