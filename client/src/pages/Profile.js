@@ -17,7 +17,7 @@ const Profile = () => {
       setPlaylists(userPlaylists.data);
       
       const userTopArtists = await getTopArtists();
-      setTopArtists(topArtists.data);
+      setTopArtists(userTopArtists.data);
     };
 
     catchErrors(fetchData());
