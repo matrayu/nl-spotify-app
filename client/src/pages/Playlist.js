@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router";
-import { catchErrors } from "../utils";
-import { getPlaylistById, getAudioFeaturesForTracks } from "../spotify";
 import axios from "axios";
-import { TrackList, SectionWrapper, PlaylistsGrid } from "../components";
+import { getPlaylistById, getAudioFeaturesForTracks } from "../spotify";
+import { catchErrors } from "../utils";
+import { TrackList, SectionWrapper, Loader } from "../components";
 import { StyledHeader, StyledDropdown } from "../styles";
 
 const Playlist = () => {
@@ -121,8 +121,7 @@ const Playlist = () => {
                 <p className="header__meta">
                   {playlist.followers.total ? (
                     <span>
-                      {playlist.followers.total}{" "}
-                      {`follower${playlist.followers.total !== 1 ? "s" : ""}`}
+                      {playlist.followers.total} {`follower${playlist.followers.total !== 1 ? "s" : ""}`}
                     </span>
                   ) : null}
                   <span>
@@ -136,7 +135,7 @@ const Playlist = () => {
 
           <main>
             <SectionWrapper title="Playlists" breadcrumb={true}>
-            <StyledDropdown active={!!sortValue}>
+              <StyledDropdown active={!!sortValue}>
                 <label className="sr-only" htmlFor="order-select">
                   Sort tracks
                 </label>
@@ -153,8 +152,11 @@ const Playlist = () => {
                   ))}
                 </select>
               </StyledDropdown>
-              {tracksForTracklist && (
+
+              {sortedTracks ? (
                 <TrackList tracks={sortedTracks} />
+              ) : (
+                <Loader />
               )}
             </SectionWrapper>
           </main>

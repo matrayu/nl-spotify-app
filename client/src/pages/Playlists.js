@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getCurrentUserPlaylists } from "../spotify";
 import { catchErrors } from "../utils";
-import { SectionWrapper, PlaylistsGrid } from "../components";
+import { SectionWrapper, PlaylistsGrid, Loader } from "../components";
 
 const Playlists = () => {
   const [playlistsData, setPlaylistsData] = useState(null);
@@ -13,15 +13,13 @@ const Playlists = () => {
       const { data } = await getCurrentUserPlaylists();
       setPlaylistsData(data);
     };
-    
-    
+
     catchErrors(fetchData());
   }, []);
 
   // When playlistsData updates, check if there are more playlists to fetch
   // then update the state variable
   useEffect(() => {
-    
     if (!playlistsData) {
       return;
     }
@@ -43,20 +41,20 @@ const Playlists = () => {
       ...playlistsData.items,
     ]);
 
-
     // Fetch next set of playlists as needed
     catchErrors(fetchMoreData());
-
   }, [playlistsData]);
 
   return (
-      <main>
-          <SectionWrapper title='Public Playlists' breadcrumb={true}>
-              {playlists && (
-                  <PlaylistsGrid playlists={playlists} />
-              )}
-          </SectionWrapper>
-      </main>
+    <main>
+      {playlists ? (
+        <SectionWrapper title="Public Playlists" breadcrumb={true}>
+          {playlists && <PlaylistsGrid playlists={playlists} />}
+        </SectionWrapper>
+      ) : (
+        <Loader />
+      )}
+    </main>
   );
 };
 
