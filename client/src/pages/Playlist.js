@@ -12,8 +12,8 @@ const Playlist = () => {
   const [tracksData, setTracksData] = useState(null);
   const [tracks, setTracks] = useState(null);
   const [audioFeatures, setAudioFeatures] = useState(null);
-  const [sortValue, setSortValue] = useState('');
-  const sortOptions = ['danceability', 'tempo', 'energy'];
+  const [sortValue, setSortValue] = useState("");
+  const sortOptions = ["danceability", "tempo", "energy"];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,29 +62,29 @@ const Playlist = () => {
   }, [tracks]);
 
   const tracksWithAudioFeatures = useMemo(() => {
-      if (!tracks || !audioFeatures) {
-          return null
+    if (!tracks || !audioFeatures) {
+      return null;
+    }
+
+    return tracks.map(({ track }) => {
+      const trackToAdd = track;
+
+      if (!track.audio_features) {
+        const audioFeaturesObj = audioFeatures.find((item) => {
+          if (!item || !track) {
+            return null;
+          }
+          return item.id === track.id;
+        });
+
+        trackToAdd["audio_features"] = audioFeaturesObj;
       }
 
-      return tracks.map(({ track }) => {
-          const trackToAdd = track;
+      return trackToAdd;
+    });
+  }, [tracks, audioFeatures]);
 
-          if (!track.audio_features) {
-              const audioFeaturesObj = audioFeatures.find(item => {
-                  if (!item || !track) {
-                      return null;
-                  }
-                  return item.id === track.id;
-              });
-
-              trackToAdd['audio_features'] = audioFeaturesObj;
-          }
-
-          return trackToAdd;
-      })
-  }, [tracks, audioFeatures])
-
-  console.log(tracksWithAudioFeatures)
+  console.log(tracksWithAudioFeatures);
 
   return (
     <>
@@ -120,23 +120,26 @@ const Playlist = () => {
 
           <main>
             <SectionWrapper title="Playlists" breadcrumb={true}>
-                    <div>
-                        <label className="sr-only"
-                        htmlFor="order-select">Sort tracks</label>
-                        <select
-                            name="track-order"
-                            id="order-select"
-                            onChange={e => setSortValue(e.target.value)}
-                        >
-                            <option value="">Sort tracks</option>
-                            {sortOptions.map((option, i) => {
-                                <option value={option} key={i}>
-                                    {`${option.charAt(0).toUpperCase()}${option.slice(1)}`}
-                                </option>
-                            })}
-                        </select> 
-                    </div>
-              {tracksForTracklist && <TrackList tracks={tracksWithAudioFeatures} />}
+              <div>
+                <label className="sr-only" htmlFor="order-select">
+                  Sort tracks
+                </label>
+                <select
+                  name="track-order"
+                  id="order-select"
+                  onChange={(e) => setSortValue(e.target.value)}
+                >
+                  <option value="">Sort tracks</option>
+                  {sortOptions.map((option, i) => {
+                    <option value={option} key={i}>
+                      {`${option.charAt(0).toUpperCase()}${option.slice(1)}`}
+                    </option>;
+                  })}
+                </select>
+              </div>
+              {tracksForTracklist && (
+                <TrackList tracks={tracksWithAudioFeatures} />
+              )}
             </SectionWrapper>
           </main>
         </>
