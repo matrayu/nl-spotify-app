@@ -5,7 +5,7 @@ import { ArtistsGrid, SectionWrapper, TimeRangeButtons } from '../components';
 
 const TopArtists = () => {
     const [topArtists, setTopArtisits] = useState(null);
-    const [activeRange, setActiveRange] = useState(null);
+    const [activeRange, setActiveRange] = useState('short');
 
     useEffect(() => {
         const fetchData = async () => {
