@@ -4,7 +4,7 @@ import { catchErrors } from "../utils";
 import { getPlaylistById, getAudioFeaturesForTracks } from "../spotify";
 import axios from "axios";
 import { TrackList, SectionWrapper, PlaylistsGrid } from "../components";
-import { StyledHeader } from "../styles";
+import { StyledHeader, StyledDropdown } from "../styles";
 
 const Playlist = () => {
   const { id } = useParams();
@@ -84,7 +84,23 @@ const Playlist = () => {
     });
   }, [tracks, audioFeatures]);
 
-  console.log(tracksWithAudioFeatures);
+  // Sort tracks by audio feature to be used in template
+  const sortedTracks = useMemo(() => {
+    if (!tracksWithAudioFeatures) {
+      return null;
+    }
+
+    return [...tracksWithAudioFeatures].sort((a, b) => {
+      const aFeatures = a["audio_features"];
+      const bFeatures = b["audio_features"];
+
+      if (!aFeatures || !bFeatures) {
+        return false;
+      }
+
+      return bFeatures[sortValue] - aFeatures[sortValue];
+    });
+  }, [sortValue, tracksWithAudioFeatures]);
 
   return (
     <>
@@ -120,7 +136,7 @@ const Playlist = () => {
 
           <main>
             <SectionWrapper title="Playlists" breadcrumb={true}>
-              <div>
+            <StyledDropdown active={!!sortValue}>
                 <label className="sr-only" htmlFor="order-select">
                   Sort tracks
                 </label>
@@ -130,15 +146,15 @@ const Playlist = () => {
                   onChange={(e) => setSortValue(e.target.value)}
                 >
                   <option value="">Sort tracks</option>
-                  {sortOptions.map((option, i) => {
+                  {sortOptions.map((option, i) => (
                     <option value={option} key={i}>
                       {`${option.charAt(0).toUpperCase()}${option.slice(1)}`}
-                    </option>;
-                  })}
+                    </option>
+                  ))}
                 </select>
-              </div>
+              </StyledDropdown>
               {tracksForTracklist && (
-                <TrackList tracks={tracksWithAudioFeatures} />
+                <TrackList tracks={sortedTracks} />
               )}
             </SectionWrapper>
           </main>
