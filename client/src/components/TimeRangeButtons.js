@@ -1,6 +1,6 @@
 import { StyledRangeButtons } from '../styles';
 
-const TimeRangeButons = ({ activeRange, setActiveRange }) => {
+const TimeRangeButtons = ({ activeRange, setActiveRange }) => {
     return (
         <StyledRangeButtons>
             <li>
@@ -28,4 +28,4 @@ const TimeRangeButons = ({ activeRange, setActiveRange }) => {
     );
 };
 
-export default TimeRangeButons;
+export default TimeRangeButtons;
