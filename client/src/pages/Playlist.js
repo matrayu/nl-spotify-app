@@ -54,12 +54,6 @@ const Playlist = () => {
     };
     catchErrors(fetchAudioFeatures());
   }, [tracksData]);
-  const tracksForTracklist = useMemo(() => {
-    if (!tracks) {
-      return;
-    }
-    return tracks.map(({ track }) => track);
-  }, [tracks]);
 
   const tracksWithAudioFeatures = useMemo(() => {
     if (!tracks || !audioFeatures) {
