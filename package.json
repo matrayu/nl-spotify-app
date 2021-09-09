@@ -27,6 +27,8 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.15.4",
+    "@babel/core": "^7.15.5",
     "concurrently": "^6.2.1",
     "nodemon": "^2.0.12"
   }
