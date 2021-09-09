@@ -3,8 +3,11 @@ const express = require("express");
 const querystring = require("querystring");
 const axios = require("axios");
 const app = express();
+const path = require('path');
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, FRONTEND_URI } = process.env;
 const PORT = process.env.PORT || 8888;
+
+app.use(express.static(path.resolve(__dirname, './client/build')));
 
 /**
  * Generates a random string containing numbers and letters
@@ -110,6 +113,10 @@ app.get("/refresh_token", (req, res) => {
     .catch((error) => {
       res.send(error);
     });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
