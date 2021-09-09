@@ -7,6 +7,7 @@ const path = require('path');
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, FRONTEND_URI } = process.env;
 const PORT = process.env.PORT || 8888;
 
+// Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, './client/build')));
 
 /**
@@ -115,6 +116,7 @@ app.get("/refresh_token", (req, res) => {
     });
 });
 
+// All remaining requests return the React app, so it can handle routing.
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
