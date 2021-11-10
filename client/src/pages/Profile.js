@@ -5,11 +5,13 @@ import {
   getCurrentUserPlaylists,
   getTopArtists,
   getTopTracks,
+  getUsersSavedTracks,
 } from "../spotify";
 import {
   SectionWrapper,
   ArtistsGrid,
   TrackList,
+  SavedTracksList,
   PlaylistsGrid,
   Loader,
 } from "../components";
@@ -20,6 +22,7 @@ const Profile = () => {
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
+  const [savedTracks, setSavedTracks] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +37,11 @@ const Profile = () => {
 
       const userTopTracks = await getTopTracks();
       setTopTracks(userTopTracks.data);
+      
+      const userSavedTracks = await getUsersSavedTracks();
+      setSavedTracks(userSavedTracks.data);
     };
+
 
     catchErrors(fetchData());
   }, []);
@@ -69,7 +76,7 @@ const Profile = () => {
           </div>
         </StyledHeader>
       )}
-      {topArtists && topTracks && playlists ? (
+      {topArtists && topTracks && playlists && savedTracks ? (
         <main>
           <SectionWrapper
             title="Top artists this month"
@@ -87,6 +94,10 @@ const Profile = () => {
 
           <SectionWrapper title="Playlists" seeAllLink="/playlists">
             <PlaylistsGrid playlists={playlists.items.slice(0, 10)} />
+          </SectionWrapper>
+          
+          <SectionWrapper title="Saved Tracks" seeAllLink="/saved-tracks">
+            <SavedTracksList tracks={savedTracks.items.slice(0, 10)} />
           </SectionWrapper>
         </main>
       ) : ( 
