@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUsersSavedTracks } from "../spotify";
-import { catchErrors } from "../utils";
+import { catchErrors, getUrlParam } from "../utils";
 import {
   SavedTracksList,
   SectionWrapper,
@@ -25,13 +25,13 @@ const SavedTracks = () => {
 
       console.log(!!nextUrl)
       while (!!nextUrl) {
-        let url = data.data.next
+        offset = getUrlParam(data.data.next, 'offset')
+        /* let url = data.data.next
         let paramStr = url.slice(url.indexOf('?'));
         let searchParams = new URLSearchParams(paramStr);
-        offset = searchParams.get('offset');
+        offset = searchParams.get('offset'); */
         data = await getUsersSavedTracks(offset);
         tracks.push(...data.data.items)
-        console.log(url)
         data.data.next ? nextUrl = data.data.next : nextUrl = false;
         setSavedTracks(tracks)
       }
@@ -40,7 +40,7 @@ const SavedTracks = () => {
     };
 
     catchErrors(fetchData());
-  }, []);
+  }, [savedTracks]);
 
   return (
     <main>

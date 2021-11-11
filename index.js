@@ -41,6 +41,14 @@ app.get("/login", (req, res) => {
     'user-read-email',
     'user-top-read',
     'user-library-read',
+    'user-read-recently-played',
+    'user-follow-read',
+    'user-read-currently-playing',
+    'user-read-private',
+    'user-read-playback-state',
+    'user-modify-playback-state',
+    'playlist-read-private',
+    'playlist-read-collaborative'
   ].join(' ');
 
   const queryParams = querystring.stringify({

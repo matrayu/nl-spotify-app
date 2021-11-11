@@ -22,3 +22,15 @@ export const catchErrors = (fn) => {
   const seconds = Math.floor(((ms % 60000) / 1000));
   return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
+
+/**
+ * Get URL Params from url string
+ * @param {string} url
+ * @param {string} param string to find
+ * @returns {string} param string
+ */
+ export const getUrlParam = (url, param) => {
+  let paramStr = url.slice(url.indexOf('?'));
+  let searchParams = new URLSearchParams(paramStr);
+  return searchParams.get(param);
+}

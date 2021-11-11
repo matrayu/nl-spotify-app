@@ -1,21 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useLocation,
-} from 'react-router-dom';
-import { accessToken, logout } from './spotify';
-import { Login, Profile, TopArtists, TopTracks, Playlists, Playlist, SavedTracks } from './pages';
-import { GlobalStyle } from './styles';
-import styled from 'styled-components/macro';
+} from "react-router-dom";
+import { accessToken, logout } from "./spotify";
+import {
+  Login,
+  Profile,
+  TopArtists,
+  TopTracks,
+  Playlists,
+  Playlist,
+  SavedTracks,
+  FollowedArtists,
+} from "./pages";
+import { GlobalStyle } from "./styles";
+import styled from "styled-components/macro";
 
 const StyledLogoutButton = styled.button`
   position: absolute;
   top: var(--spacing-sm);
   right: var(--spacing-md);
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: rgba(0,0,0,.7);
+  background-color: rgba(0, 0, 0, 0.7);
   color: var(--white);
   font-size: var(--fz-sm);
   font-weight: 700;
@@ -66,6 +75,9 @@ function App() {
               </Route>
               <Route path="/top-tracks">
                 <TopTracks />
+              </Route>
+              <Route path="/followed-artists">
+                <FollowedArtists />
               </Route>
               <Route path="/playlists/:id">
                 <Playlist />

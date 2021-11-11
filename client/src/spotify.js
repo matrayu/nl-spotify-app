@@ -185,12 +185,14 @@ export const getTopTracks = (time_range = "long_term", limit = 50) => {
 };
 
 /**
- * Get Users Next Saved Tracks
- * https://developer.spotify.com/documentation/web-api/reference/#/operations/get-users-saved-tracks
+ * Get Followed Artists
+ * https://developer.spotify.com/documentation/web-api/reference/#/operations/get-followed
  * @returns {Promise}
  */
- export const getUsersNextSavedTracks = (time_range = "long_term", limit = 50, offset = 0) => {
-  return axios.get(`/me/tracks?time_range=${time_range}&limit=${limit}&offset=${offset}`);
+ export const getFollowedArtists = (after = null) => {
+   return after 
+    ? axios.get(`/me/following?limit=50&type=artist&after=${after}`)
+    : axios.get(`/me/following?limit=50&type=artist`)
 };
 
 /**

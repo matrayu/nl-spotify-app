@@ -20,7 +20,7 @@ const TopTracks = () => {
     };
 
     catchErrors(fetchData());
-  }, [activeRange]);
+  }, [activeRange, topTracks]);
 
   return (
     <main>

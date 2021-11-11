@@ -6,12 +6,14 @@ import {
   getTopArtists,
   getTopTracks,
   getUsersSavedTracks,
+  getFollowedArtists,
 } from "../spotify";
 import {
   SectionWrapper,
   ArtistsGrid,
   TrackList,
   SavedTracksList,
+  FollowedArtistsList,
   PlaylistsGrid,
   Loader,
 } from "../components";
@@ -23,6 +25,7 @@ const Profile = () => {
   const [topArtists, setTopArtists] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
   const [savedTracks, setSavedTracks] = useState(null);
+  const [followedArtists, setFollowedArtists] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +43,9 @@ const Profile = () => {
       
       const userSavedTracks = await getUsersSavedTracks();
       setSavedTracks(userSavedTracks.data);
+      
+      const userFollowedArtists = await getFollowedArtists();
+      setFollowedArtists(userFollowedArtists.data.artists);
     };
 
 
@@ -98,6 +104,15 @@ const Profile = () => {
           
           <SectionWrapper title="Saved Tracks" seeAllLink="/saved-tracks">
             <SavedTracksList tracks={savedTracks.items.slice(0, 10)} />
+          </SectionWrapper>
+          
+          <SectionWrapper title="Followed Artists" seeAllLink="/followed-artists">
+            {followedArtists && followedArtists.items ? (
+              <FollowedArtistsList artists={followedArtists.items.slice(0, 10)} />
+            ) : (
+              <p className="empty-notice">No followed artists</p>
+            )
+            }
           </SectionWrapper>
         </main>
       ) : ( 
